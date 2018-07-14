@@ -3,6 +3,7 @@ import paho.mqtt.client as mqtt
 import numpy as np
 import datetime
 from time import sleep
+import functools
 
 matrices = {
     0: np.matrix('1 1 1; 1 0 1; 1 0 1; 1 0 1; 1 1 1'),
@@ -46,6 +47,7 @@ def digit_matrix(previous_digit, current_digit):
         return matrices.get(current_digit, matrices[None])
 
 
+@functools.lru_cache(maxsize=128, typed=False)
 def frame_number(previous_number, current_number):
     current_string = str(current_number)
     previous_string = str(previous_number)
