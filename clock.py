@@ -39,14 +39,14 @@ empty_frame = np.reshape(
 )
 
 
-def digit_matrix(current_digit, previous_digit=None):
-    if previous_digit is not None and current_digit != previous_digit:
+def digit_matrix(previous_digit, current_digit):
+    if current_digit != previous_digit:
         return matrices.get((previous_digit, current_digit), matrices[None])
     else:
         return matrices.get(current_digit, matrices[None])
 
 
-def frame_number(current_number, previous_number):
+def frame_number(previous_number, current_number):
     current_string = str(current_number)
     previous_string = str(previous_number)
 
@@ -57,13 +57,13 @@ def frame_number(current_number, previous_number):
         (
             char_spacer,
             digit_matrix(
-                0 if current_length == 1 else int(current_string[0]),
-                0 if previous_length == 1 else int(previous_string[0])
+                0 if previous_length == 1 else int(previous_string[0]),
+                0 if current_length == 1 else int(current_string[0])
             ),
             char_spacer,
             digit_matrix(
-                int(current_string[0]) if current_length == 1 else int(current_string[1]),
                 int(previous_string[0]) if previous_length == 1 else int(previous_string[1]),
+                int(current_string[0]) if current_length == 1 else int(current_string[1])
             ),
             char_spacer,
         ),
@@ -113,9 +113,9 @@ if __name__ == '__main__':
         client.publish(
             "display/_all/frame",
             frames_to_data(
-                frame_number(now.hour, prev.hour),
-                frame_number(now.minute, prev.minute),
-                frame_number(now.second, prev.second)
+                frame_number(prev.hour, now.hour),
+                frame_number(prev.minute, now.minute),
+                frame_number(prev.second, now.second)
             )
         )
         delta = now - prev
