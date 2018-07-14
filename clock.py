@@ -47,19 +47,23 @@ def digit_matrix(current_digit, previous_digit=None):
 
 
 def frame_number(current_number, previous_number):
-    as_string = str(current_number)
-    prev_string = str(previous_number)
+    current_string = str(current_number)
+    previous_string = str(previous_number)
+
+    current_length = len(current_string)
+    previous_length = len(previous_string)
+
     return np.concatenate(
         (
             char_spacer,
             digit_matrix(
-                None if len(as_string) == 1 else int(as_string[0]),
-                None if len(prev_string) == 1 else int(prev_string[0]),
+                0 if current_length == 1 else int(current_string[0]),
+                0 if previous_length == 1 else int(previous_string[0])
             ),
             char_spacer,
             digit_matrix(
-                int(as_string[0]) if len(as_string) == 1 else int(as_string[1]),
-                int(prev_string[0]) if len(prev_string) == 1 else int(prev_string[1]),
+                int(current_string[0]) if current_length == 1 else int(current_string[1]),
+                int(previous_string[0]) if previous_length == 1 else int(previous_string[1]),
             ),
             char_spacer,
         ),
