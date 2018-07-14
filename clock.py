@@ -120,7 +120,7 @@ if __name__ == '__main__':
                 frame_number(prev.second, now.second)
             )
         )
-        delta = now - prev
+        delta = datetime.datetime.now() - prev
         if prev.hour == now.hour and prev.minute == now.minute and prev.second == now.second:
             sleep(max(0.01, 0.99 - (delta.microseconds / 100000)))
         else:
